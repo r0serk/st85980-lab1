@@ -3,7 +3,7 @@
 Visi uzdevumi ir apvienoti vienā programmā ar galveno izvēlni.
 
 ```
-lab1/
+st85980-lab1/
 ├── Main.hs          galvenā izvēlne
 ├── Tasks/           uzdevumi Nr. 1–8 (Task1.hs … Task8.hs)
 ├── Utils/
