@@ -1,0 +1,50 @@
+# Koda kvalitātes pārbaude (quality gate), kas izpildās pēc katras augšupielādes:
+# 1) programma tiek nokompilēta ar GHC, ieslēdzot visus brīdinājumus (-Wall);
+# 2) programma tiek palaista ar sagatavotu ievadi, un tiek pārbaudīts,
+#    vai visās 16 testu grupās visi testi ir izturēti.
+name: Code quality gate
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  quality-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install GHC
+        uses: haskell-actions/setup@v2
+        with:
+          ghc-version: "9.6"
+
+      - name: Build (ghc -Wall)
+        run: |
+          ghc --version
+          ghc -Wall -outputdir build Main.hs -o lab1
+
+      - name: Run all tests
+        shell: bash
+        run: |
+          # Ievade: uzdevuma numurs, piemērs vai vārds, "n" (vairāk nemēģināt) un Enter.
+          printf '%s\n' \
+            1 '' n '' \
+            2 Haskell n '' \
+            3 'hello world' n '' \
+            4 '' n '' \
+            5 '' n '' \
+            6 '' n '' \
+            7 '' 7 n '' \
+            8 '' n '' \
+            0 > input.txt
+          ./lab1 < input.txt | tee output.txt
+          groups=$(grep -c '^Tests passed:' output.txt || true)
+          failed=$(grep -c '^Result: FAIL' output.txt || true)
+          echo "Test groups: $groups, failed tests: $failed"
+          if [ "$groups" -ne 16 ]; then echo "::error::Expected 16 test groups, found $groups"; exit 1; fi
+          if [ "$failed" -ne 0 ]; then echo "::error::$failed test(s) failed"; exit 1; fi
+          if ! grep -q 'Goodbye!' output.txt; then echo "::error::Program did not finish normally"; exit 1; fi
+          echo "All tests passed."
