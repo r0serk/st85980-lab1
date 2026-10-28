@@ -1,0 +1,15 @@
+# GHC kompilācijas faili
+*.hi
+*.o
+*.dyn_hi
+*.dyn_o
+*.exe
+/Main
+/lab1
+
+# cabal / stack
+dist-newstyle/
+.stack-work/
+
+# Word pagaidu faili
+~$*

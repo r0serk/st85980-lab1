@@ -1,0 +1,5 @@
+# Haskell Language Server (VS Code) iestatījumi:
+# moduļi Tasks.* un Utils.* tiek meklēti projekta mapē.
+cradle:
+  direct:
+    arguments: ["-i."]
