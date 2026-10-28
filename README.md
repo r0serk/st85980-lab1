@@ -1,7 +1,7 @@
 # Laboratorijas darbs Nr. 1 — Haskell (8. variants)
 
 Visi uzdevumi ir apvienoti vienā programmā ar galveno izvēlni.
-
+![Code quality gate](https://github.com/r0serk/st85980-lab1/actions/workflows/quality.yml/badge.svg)
 ```
 st85980-lab1/
 ├── Main.hs          galvenā izvēlne
